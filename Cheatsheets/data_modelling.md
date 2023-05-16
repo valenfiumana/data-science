@@ -105,8 +105,7 @@ I have a model represented by the function $f(a, b; x) = ax + b$, where "a" and 
 
 To evaluate the **distance** between the **model's prediction** and a **specific data point** (x1, y1), you can substitute "x1" and "y1" into the function f(a, b; x) and calculate the difference:
 
-$Distance = f(a, b; x1) - y1
-= (a * x1 + b) - y1 $
+$Distance = f(a, b; x1) - y1 = (a * x1 + b) - y1$
 
 "Distance" represents the difference between the model's prediction and a single data point. It is a measure of the deviation between the model's output and the actual value for that specific data point.
 
@@ -120,4 +119,7 @@ The square of the difference is used to ensure that both positive and negative d
 
 By minimizing the value of $D(a, b)$, you are effectively finding the values of parameters "a" and "b" that result in the best fit or approximation of the model to the given data points. 
 
+$$
+\frac{\sum_{i=0}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=0}^n (X_i - \bar{X})^2}
+$$
 
