@@ -94,11 +94,11 @@ Frequently, models are given by continuous functions
 * Example: continuous function of a variable f(x) can be represented in a graph as y = f(x)
 * Example of a model: y = a x + b with parameters a and b determined from the data.
 
-#### Example
+### Linear regression
 1. Find a model (function) that represents (approximately) the data. 
 2. Minimize the distance between a model and the data.
 
-![img.png](model-ex.png)
+![img.png](img/model-ex.png)
 
 
 I have a model represented by the function $f(a, b; x) = ax + b$, where "a" and "b" are parameters that determine the shape of the function, and "x" is the input variable.
@@ -120,6 +120,107 @@ The square of the difference is used to ensure that both positive and negative d
 By minimizing the value of $D(a, b)$, you are effectively finding the values of parameters "a" and "b" that result in the best fit or approximation of the model to the given data points. 
 
 $$
-\frac{\sum_{i=0}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=0}^n (X_i - \bar{X})^2}
+a = \frac{\sum_{i=1}^n (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^n (X_i - \bar{X})^2}
 $$
 
+$$
+b = \bar{y} - a \bar{X}
+$$
+
+
+#### In Python:
+
+```python
+# Importing necessary libraries
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt 
+```
+
+```python
+# Creating arrays for x and y data points
+x = np.array([55.0, 38, 68, 70, 53, 46, 11, 16, 20, 4])
+y = np.array([153.0, 98, 214, 220, 167, 145, 41, 63, 65, 25])
+
+# Creating a scatter plot using the x and y data
+g = plt.scatter(x=x, y=y, color='red')
+
+# Setting the y-axis limits of the plot
+plt.ylim((-10, 240))
+
+# Setting the labels for x and y axes
+plt.xlabel('x')
+plt.ylabel('y')
+
+# Displaying the plot
+plt.show()
+```
+
+![img.png](img/scatter.png)
+
+![img_1.png](img/ab_ec.png)
+```python
+# Calculating a and b using the previous formula
+def ajuste_lineal(x,y):
+    a = sum(((x - x.mean())*(y-y.mean()))) / sum(((x-x.mean())**2))
+    b = y.mean() - a*x.mean()
+    return a, b
+
+a, b = ajuste_lineal(x, y)
+print('a =', a) # a = 2.905522724210283 
+print('b =', b) # b = 8.39958420758822
+```
+
+```python
+# Generate a range of x values for creating a continuous plot of the line
+# linspace generates 100 equally spaced values between 0 and 75, inclusive.
+xc = np.linspace(0, 75, 100)
+
+# Use the equation of the line with the fitted coefficients obtained from the previous formula
+# It calculates the corresponding y values for each x value 
+yc = a * xc + b
+
+# Plot the line
+plt.plot(xc, yc, 'b')
+
+# Plot the original data points
+plt.scatter(x=x, y=y, color='red')
+
+# Display the plot
+plt.show()
+```
+
+![img.png](img/plot_ajuste.png)
+
+## Curve fitting
+Curve fitting refers to the process of finding a mathematical function that best fits a set of data points. In this case, we want to fit the curve without knowing the equations that would give us the parameters a and b of the function.
+
+To achieve this, we need to define a distance function between the data points and and minimize it.
+
+![img.png](img/d2.png)
+
+```python
+def cuadratic_distance(x, y, a, b):
+    D = a * x + b - y
+    D2 = sum(D*D)
+    return D2
+```
+
+In mathematics, to minimize a function means to find the value or values of the independent variable(s) that result in the smallest possible value of the function - in this case, a and b.
+
+```python
+# The function that I want to minimize
+def line_distance(coefs): # Distancia a la recta
+    an = coefs[0]
+    bn = coefs[1]
+    Dxy = cuadratic_distance(x, y, an, bn)
+   return Dxy
+```
+The code minimize(line_distance, [1, 1]) is calling the minimize function to find the minimum value of the line_distance function, starting with an initial guess of [1, 1] for the coefficients of the line.
+
+By providing line_distance as the first argument and [1, 1] as the initial guess for the coefficients, the minimize function will iteratively refine the coefficients to minimize the value returned by the line_distance function.
+
+```python
+from scipy.optimize import minimize
+minimize(line_distance, [1, 1]) # [1, 1] is my initial guess for coefficients
+```
