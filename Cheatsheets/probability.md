@@ -202,6 +202,35 @@ random.seed(42) # I can choose any number
 random.randint(1, 6)
 ```
 
+### random.choices
+
+The random.choices function is a method in Python's random module that allows you to randomly select one or more elements from a population based on specified weights or probabilities. 
+It provides a way to perform weighted random selection.
+
+```python
+import random
+random.choices(population, weights=None, k=1)
+```
+* **population** is the list of elements to choose from. It can be a list, tuple, string, or any other iterable.
+* **weights** is an optional parameter that specifies the relative weights or probabilities associated with each element in the population. 
+   It should be a sequence of numeric values with the same length as the population. 
+    If not provided, all elements have equal probability of being selected.
+* **k** is an optional parameter that indicates the number of elements to be selected. If not specified, the default value is 1.
+
+The random.choices function returns a list of selected elements based on the provided weights and the number of selections specified by k.
+
+Example:
+
+```python
+import random
+
+population = ['A', 'B', 'C', 'D']
+weights = [0.2, 0.3, 0.1, 0.4]
+
+selection = random.choices(population, weights, k=3)
+print(selection) # the random.choices function randomly selects three elements from the population list based on the associated weights. 
+```
+
 ### Generala servida
 What's the probability of rolling 5 dice and they all show the same number?
 
@@ -443,6 +472,8 @@ plt.show()
 ```
 ![img.png](img/dice-prod-hist.png)
 
+
+
 ```python
 print('Mean:', np.mean(results_d)) # 12.22194
 print('Median:', np.median(results_d)) # 10.0
@@ -643,3 +674,16 @@ In other words, it gives us the cumulative probability up to that value.
 In other words, it gives us the probability of survival beyond that value. 
 
     For example, if the survival function value at x = 5 is 0.2, it means that there is a 20% probability of the random variable being greater than 5.
+
+### Resumen
+
+De una disribución de probabilidad:
+
+La función **sf (Survival Function)** te da la probabilidad de obtener un valor igual o mayor al valor especificado. Por ej, si mi_gaussiana.sf(27) = 0.75, significa que hay un 75% de probabilidad de obtener valores de 27 o superior.
+
+La función **ppf (Percent Point Function)** te da el valor de un percentil o probabilidad acumulada especificada. Por ej, si mi_gaussiana.ppf(0.75) = 82, significa que el 75% de los casos se encuentra por debajo del valor 82, y el 25% de los casos se encuentra por encima de 82.
+
+La función **pdf (Probability Density Function)** te da la densidad de probabilidad en un punto específico. O sea la probabilidad relativa de obtener ese valor específico. 
+
+La función **cdf (Cumulative Density Function)** te da la probabilidad acumulada de que una variable aleatoria sea menor o igual a un valor específico. 
+Por ej, si mi_gaussiana.cdf(13)=0.54, significa que la probabilidad acumulada de que una variable aleatoria gaussiana sea menor o igual a 13 es de 0.54. (O que hay un 54% de probabilidad de obtener un valor igual o menor a 13).

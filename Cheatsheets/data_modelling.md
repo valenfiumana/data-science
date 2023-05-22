@@ -224,3 +224,62 @@ By providing line_distance as the first argument and [1, 1] as the initial guess
 from scipy.optimize import minimize
 minimize(line_distance, [1, 1]) # [1, 1] is my initial guess for coefficients
 ```
+
+## Bins
+Experimenting with different bin sizes and visually inspecting the resulting histograms can help you find an appropriate balance.
+
+Here are some examples using different methods to determine the number of bins for a histogram:
+
+Square Root Rule:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.randn(1000)  # Example data
+num_bins = int(np.sqrt(len(data)))
+
+plt.hist(data, bins=num_bins)
+plt.show()
+```
+
+Sturges' Rule:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.randn(1000)  # Example data
+num_bins = int(1 + np.log2(len(data)))
+
+plt.hist(data, bins=num_bins)
+plt.show()
+```
+
+Scott's Rule:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.randn(1000)  # Example data
+std_dev = np.std(data)
+num_bins = int((np.max(data) - np.min(data)) / (3.5 * std_dev * len(data)**(-1/3)))
+
+plt.hist(data, bins=num_bins)
+plt.show()
+```
+
+Freedman-Diaconis Rule:
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.randn(1000)  # Example data
+iqr = np.percentile(data, 75) - np.percentile(data, 25)
+num_bins = int((np.max(data) - np.min(data)) / (2 * iqr * len(data)**(-1/3)))
+
+plt.hist(data, bins=num_bins)
+plt.show()
+```
+
+
+
+
